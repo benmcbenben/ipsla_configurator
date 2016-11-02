@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import os
 from netmiko import ConnectHandler
 from dotenv import load_dotenv, find_dotenv
 
