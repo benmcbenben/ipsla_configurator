@@ -40,9 +40,8 @@ def main():
     except:
         sys.exit("Username and password enviromnent variables are not set. Check .env file.")
 
+    print sys.argv
     # grab src (device address) from args
-    if ("src_address" and "dst_address") not in sys.argv:
-        sys.exit("Source and destination IP address not set")
     for arg in sys.argv:
         if "src_address" in arg:
             src_address = arg.split("=")[1]
