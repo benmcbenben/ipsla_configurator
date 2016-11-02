@@ -44,17 +44,15 @@ def configure_sla(working_device, sla_number, dst_address, description):
 
     if assess_sla(sla_number, working_device):
         quit("SLA successfully added")
-    print  assess_sla(sla_list, sla_number)
     return
 
 
 def remove_sla(working_device, sla_number):
-    sla_list = get_sla_list(working_device)
-    if not assess_sla(sla_list, sla_number):
+    if not assess_sla(sla_number, working_device):
         sys.exit("SLA not found. Please check you have the correct source and SLA number")
     else:
         junk = working_device.send_config_set(['no ip sla %s'])
-    if not assess_sla(sla_list, sla_number):
+    if not assess_sla(sla_number, working_device):
         quit("SLA Removal successful")
     return
 
