@@ -51,9 +51,11 @@ def remove_sla(working_device, sla_number):
     if not assess_sla(sla_number, working_device):
         sys.exit("SLA not found. Please check you have the correct source and SLA number")
     else:
-        junk = working_device.send_config_set(['no ip sla %s'])
+        junk = working_device.send_config_set(['no ip sla %s' % sla_number])
     if not assess_sla(sla_number, working_device):
         quit("SLA Removal successful")
+    else:
+        sys.exit('SLA Removal failure. Unknown error. Tell Ben you saw this')
     return
 
 
