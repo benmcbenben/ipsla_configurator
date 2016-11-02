@@ -22,7 +22,8 @@ def get_sla_list(working_device):
     return sla_list
 
 
-def assess_sla(sla_list, sla_number):
+def assess_sla(sla_number, working_device):
+    sla_list = get_sla_list(working_device)
     for sla in sla_list:
         if str(sla_number) in sla:
             return True
@@ -30,8 +31,7 @@ def assess_sla(sla_list, sla_number):
 
 
 def configure_sla(working_device, sla_number, dst_address, description):
-    sla_list = get_sla_list(working_device)
-    if assess_sla(sla_list, sla_number):
+    if assess_sla(sla_number, working_device):
         sys.exit("SLA number already in use, Please select a new number")
 
     junk = working_device.send_config_set(['ip sla %s' % sla_number,
@@ -42,8 +42,9 @@ def configure_sla(working_device, sla_number, dst_address, description):
                                            'tag %s' % description,
                                            'ip sla schedule %s life forever start-time now' % sla_number])
 
-    if assess_sla(sla_list, sla_number):
+    if assess_sla(sla_number, working_device):
         quit("SLA successfully added")
+    print  assess_sla(sla_list, sla_number)
     return
 
 
