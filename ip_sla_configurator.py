@@ -15,8 +15,14 @@ def configure_sla(working_device, sla_number, dst_address, description):
     sla_list = get_sla_list(working_device)
     if sla_number in sla_list:
         sys.exit("SLA number already in use, Please select a new number")
-    junk = working_device.send_config_set['ip sla %s' % sla_number, ]
-    # TODO: FINISH
+    junk = working_device.send_config_set['ip sla {0}'.format(sla_number),
+                                          'icmp-jitter {0} num-packets 100 interval 30'.format(dst_address), 'timeout 500',
+                                          'threshold 500',  ' frequency 10',
+                                          'history statistics-distribution-interval 100',
+                                          'history distributions-of-statistics-kept 20',
+                                          'tag {0}'.format(description),
+                                          'ip sla schedule {0} life forever start-time now'.format(sla_number)]
+    return
 
 
 def main():
@@ -56,6 +62,8 @@ def main():
         working_device = ConnectHandler(**device)
     except:
         sys.exit("Please check user and pass environment variables, and source ip address")
+
+    configure_sla(working_device, sla_number, dst_address, description)
 
 
 if __name__ == "__main__":
